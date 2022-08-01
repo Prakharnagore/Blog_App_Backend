@@ -2,9 +2,22 @@
 import express from "express";
 import dotenv from "dotenv";
 import dbConnect from "./config/db/dbConnect.js";
+// ROUTES
+import userRoutes from "./routes/users/usersRoute.js";
+import { errorHandler, notFound } from "./middlewares/error/errorHandler.js";
+
+// env
 dotenv.config();
 
 const app = express();
+app.use(express.json());
+
+// Routes
+app.use("/api/users", userRoutes);
+
+// ERROR HANDLERS
+app.use(notFound);
+app.use(errorHandler);
 
 const start = async () => {
   try {
