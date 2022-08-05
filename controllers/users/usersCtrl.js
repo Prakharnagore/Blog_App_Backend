@@ -229,7 +229,7 @@ const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
   const resetUrl = `${req.protocol}://${req.get(
     "host"
   )}/verify-account/${verificationToken}`;
-  const text = `Verify you Blog App Account in 10min:- <a href="${resetUrl}">Click To Verify</a> `;
+  const text = `Verify your Blog App Account in 10min:- <a href="${resetUrl}">Click To Verify</a> `;
 
   try {
     await sendMail({
@@ -237,7 +237,7 @@ const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
       subject: `Blog App Verification`,
       text,
     });
-    res.json("email send");
+    res.json("email sent  successfully");
   } catch (error) {
     res.json(error);
   }
@@ -265,6 +265,53 @@ const accountVerificationCtrl = expressAsyncHandler(async (req, res) => {
   res.json(userFound);
 });
 
+const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) throw new Error(`User not found`);
+  const token = await user.createPasswordResetToken();
+  await user.save();
+
+  const resetUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/reset-password/${token}`;
+  const text = `Reset your Blog App Password in 10min:- <a href="${resetUrl}">Click here Reset</a> `;
+
+  try {
+    await sendMail({
+      email: user.email,
+      subject: `Blog App Forgot Password`,
+      text,
+    });
+    res.json({ msg: `Verification email sent to: ${user.email}` });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+const passwordResetCtrl = expressAsyncHandler(async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  const userFound = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: {
+      $gt: Date.now(),
+    },
+  });
+
+  if (!userFound) {
+    throw new Error("Token Expired");
+  }
+
+  userFound.password = password;
+  userFound.passwordResetToken = undefined;
+  userFound.passwordResetExpires = undefined;
+  await userFound.save({ validateBeforeSave: true });
+
+  res.json(userFound);
+});
 export {
   userRegisterCtrl,
   userLoginCtrl,
@@ -280,4 +327,6 @@ export {
   unBlockUserCtrl,
   generateVerificationTokenCtrl,
   accountVerificationCtrl,
+  forgetPasswordToken,
+  passwordResetCtrl,
 };

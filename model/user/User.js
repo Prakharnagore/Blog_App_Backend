@@ -124,6 +124,16 @@ userSchema.methods.createAccountVerificationToken = async function () {
   return verificationToken;
 };
 
+userSchema.methods.createPasswordResetToken = async function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.passwordResetExpires = Date.now() + 30 * 60 * 1000; // 10mins
+  return resetToken;
+};
+
 const User = mongoose.model("User", userSchema);
 
 export default User;

@@ -14,6 +14,8 @@ import {
   userLoginCtrl,
   userProfileCtrl,
   userRegisterCtrl,
+  forgetPasswordToken,
+  passwordResetCtrl,
 } from "../../controllers/users/usersCtrl.js";
 import { authMiddleware } from "../../middlewares/auth/authMiddleware.js";
 const route = express.Router();
@@ -28,10 +30,11 @@ route.post(
   authMiddleware,
   generateVerificationTokenCtrl
 );
-
 route.put("/verify-account/:token", accountVerificationCtrl);
 route.put("/unfollow", authMiddleware, unfollowUserCtrl);
 route.put("/password", authMiddleware, updateUserPasswordCtrl);
+route.post("/forget-password-token", forgetPasswordToken);
+route.post("/reset-password/:token", passwordResetCtrl);
 route.put("/block-user/:id", authMiddleware, blockUserCtrl);
 route.put("/unblock-user/:id", authMiddleware, unBlockUserCtrl);
 route.put("/:id", authMiddleware, updateUserCtrl);
