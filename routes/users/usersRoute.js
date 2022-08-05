@@ -1,8 +1,14 @@
 import express from "express";
 import {
+  accountVerificationCtrl,
+  blockUserCtrl,
   deleteUserCtrl,
   fetchUserCtrl,
   fetchUserDetailsCtrl,
+  followingUserCtrl,
+  generateVerificationTokenCtrl,
+  unBlockUserCtrl,
+  unfollowUserCtrl,
   updateUserCtrl,
   updateUserPasswordCtrl,
   userLoginCtrl,
@@ -16,8 +22,19 @@ route.post("/register", userRegisterCtrl);
 route.post("/login", userLoginCtrl);
 route.get("/", authMiddleware, fetchUserCtrl);
 route.get("/profile/:id", authMiddleware, userProfileCtrl);
-route.put("/", authMiddleware, updateUserCtrl);
+route.put("/follow", authMiddleware, followingUserCtrl);
+route.post(
+  "/generate-verify-email-token",
+  authMiddleware,
+  generateVerificationTokenCtrl
+);
+
+route.put("/verify-account/:token", accountVerificationCtrl);
+route.put("/unfollow", authMiddleware, unfollowUserCtrl);
 route.put("/password", authMiddleware, updateUserPasswordCtrl);
+route.put("/block-user/:id", authMiddleware, blockUserCtrl);
+route.put("/unblock-user/:id", authMiddleware, unBlockUserCtrl);
+route.put("/:id", authMiddleware, updateUserCtrl);
 route.delete("/:id", deleteUserCtrl);
 route.get("/:id", fetchUserDetailsCtrl);
 

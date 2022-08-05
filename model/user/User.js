@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema(
   {
@@ -108,9 +109,21 @@ userSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
+
 userSchema.methods.isPasswordMatched = async function (password) {
   return bcrypt.compare(password, this.password);
 };
+
+userSchema.methods.createAccountVerificationToken = async function () {
+  const verificationToken = crypto.randomBytes(32).toString("hex");
+  this.accountVerificationToken = crypto
+    .createHash("sha256")
+    .update(verificationToken)
+    .digest("hex");
+  this.accountVerificationTokenExpires = Date.now() + 30 * 60 * 1000; // 10mins
+  return verificationToken;
+};
+
 const User = mongoose.model("User", userSchema);
 
 export default User;
