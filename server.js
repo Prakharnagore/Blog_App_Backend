@@ -1,5 +1,6 @@
 // IMPORTS
 import express from "express";
+import cloudinary from "cloudinary";
 import dotenv from "dotenv";
 import dbConnect from "./config/db/dbConnect.js";
 // ROUTES
@@ -8,6 +9,13 @@ import { errorHandler, notFound } from "./middlewares/error/errorHandler.js";
 
 // env
 dotenv.config();
+
+// cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 app.use(express.json());

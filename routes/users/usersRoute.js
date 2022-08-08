@@ -16,12 +16,26 @@ import {
   userRegisterCtrl,
   forgetPasswordToken,
   passwordResetCtrl,
+  profilePhotoUploadCtrl,
 } from "../../controllers/users/usersCtrl.js";
 import { authMiddleware } from "../../middlewares/auth/authMiddleware.js";
+import {
+  profilePhotoUpload,
+  profilePhotoResize,
+} from "../../middlewares/upload/profilePhotoUpload.js";
+
 const route = express.Router();
 
 route.post("/register", userRegisterCtrl);
 route.post("/login", userLoginCtrl);
+route.put(
+  "/profilephoto-upload",
+  authMiddleware,
+  profilePhotoUpload.single("image"),
+  profilePhotoResize,
+  profilePhotoUploadCtrl
+);
+
 route.get("/", authMiddleware, fetchUserCtrl);
 route.get("/profile/:id", authMiddleware, userProfileCtrl);
 route.put("/follow", authMiddleware, followingUserCtrl);

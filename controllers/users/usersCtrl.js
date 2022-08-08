@@ -4,6 +4,7 @@ import generateToken from "../../config/token/generateToken.js";
 import validateMongodbId from "../../utils/validateMongoDbID.js";
 import sendMail from "../../utils/sendMail.js";
 import crypto from "crypto";
+import cloudinaryUploadImg from "../../utils/cloudinary.js";
 
 const userRegisterCtrl = expressAsyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email: req?.body?.email });
@@ -312,6 +313,23 @@ const passwordResetCtrl = expressAsyncHandler(async (req, res) => {
 
   res.json(userFound);
 });
+
+const profilePhotoUploadCtrl = expressAsyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const localPath = `public/images/profile/${req.file.filename}`;
+  // cloudinaryUploadImg
+  const imgUpload = await cloudinaryUploadImg(localPath);
+  const foundUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      profilePhoto: imgUpload?.url,
+    },
+    { new: true }
+  );
+
+  res.json({ foundUser });
+});
+
 export {
   userRegisterCtrl,
   userLoginCtrl,
@@ -329,4 +347,5 @@ export {
   accountVerificationCtrl,
   forgetPasswordToken,
   passwordResetCtrl,
+  profilePhotoUploadCtrl,
 };
