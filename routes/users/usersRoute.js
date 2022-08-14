@@ -20,9 +20,9 @@ import {
 } from "../../controllers/users/usersCtrl.js";
 import { authMiddleware } from "../../middlewares/auth/authMiddleware.js";
 import {
-  profilePhotoUpload,
   profilePhotoResize,
-} from "../../middlewares/upload/profilePhotoUpload.js";
+  photoUpload,
+} from "../../middlewares/upload/photoUpload.js";
 
 const route = express.Router();
 
@@ -31,7 +31,7 @@ route.post("/login", userLoginCtrl);
 route.put(
   "/profilephoto-upload",
   authMiddleware,
-  profilePhotoUpload.single("image"),
+  photoUpload.single("image"),
   profilePhotoResize,
   profilePhotoUploadCtrl
 );

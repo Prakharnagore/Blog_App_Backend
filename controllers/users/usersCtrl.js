@@ -5,6 +5,7 @@ import validateMongodbId from "../../utils/validateMongoDbID.js";
 import sendMail from "../../utils/sendMail.js";
 import crypto from "crypto";
 import cloudinaryUploadImg from "../../utils/cloudinary.js";
+import fs from "fs";
 
 const userRegisterCtrl = expressAsyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email: req?.body?.email });
@@ -74,7 +75,7 @@ const fetchUserDetailsCtrl = expressAsyncHandler(async (req, res) => {
 const userProfileCtrl = expressAsyncHandler(async (req, res) => {
   validateMongodbId(req?.params?.id);
   try {
-    const myProfile = await User.findById(req?.params?.id);
+    const myProfile = await User.findById(req?.params?.id).populate("posts");
     res.json(myProfile);
   } catch (error) {
     res.json(error);
@@ -326,7 +327,8 @@ const profilePhotoUploadCtrl = expressAsyncHandler(async (req, res) => {
     },
     { new: true }
   );
-
+  //Remove uploaded img
+  fs.unlinkSync(localPath);
   res.json({ foundUser });
 });
 
