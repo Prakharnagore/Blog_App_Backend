@@ -7,7 +7,10 @@ import dbConnect from "./config/db/dbConnect.js";
 import userRoutes from "./routes/users/usersRoute.js";
 import postRoutes from "./routes/posts/postRoute.js";
 import commentRoutes from "./routes/comments/commentsRoute.js";
+import emailRoutes from "./routes/emailMsg/emailMsgRoute.js";
+import categoryRoutes from "./routes/category/categoryRoute.js";
 import { errorHandler, notFound } from "./middlewares/error/errorHandler.js";
+
 // env
 dotenv.config();
 
@@ -25,6 +28,8 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/email", emailRoutes);
+app.use("/api/category", categoryRoutes);
 
 // ERROR HANDLERS
 app.use(notFound);

@@ -5,6 +5,7 @@ import validateMongodbId from "../../utils/validateMongoDbID.js";
 import sendMail from "../../utils/sendMail.js";
 import crypto from "crypto";
 import cloudinaryUploadImg from "../../utils/cloudinary.js";
+import blockUser from "../../utils/blockUser";
 import fs from "fs";
 
 const userRegisterCtrl = expressAsyncHandler(async (req, res) => {
