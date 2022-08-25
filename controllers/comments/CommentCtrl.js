@@ -1,14 +1,13 @@
 import expressAsyncHandler from "express-async-handler";
-import Comment from "../../model/comment/Comment.js";
+import Comment from "../../model/comment/comment.js";
 import blockUser from "../../utils/blockUser.js";
 import validateMongodbId from "../../utils/validateMongodbID.js";
 
 const createCommentCtrl = expressAsyncHandler(async (req, res) => {
-  //1.Get the user
   const user = req.user;
-  //Check if user is blocked
+
   blockUser(user);
-  //2.Get the post Id
+
   const { postId, description } = req.body;
 
   try {
