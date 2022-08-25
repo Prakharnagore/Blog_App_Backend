@@ -2,13 +2,13 @@
   "name": "blog_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
   "type": "module",
+  "main": "server.js",
   "engines": {
     "node": "v16.14.2"
   },
   "scripts": {
-    "start": "NODE_OPTIONS='--experimental-specifier-resolution=node' node server.js",
+    "start": "node server.js",
     "server": "nodemon server.js"
   },
   "author": "",
