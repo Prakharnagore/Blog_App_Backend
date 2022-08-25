@@ -9,7 +9,7 @@
     "npm": "8.12.2"
   },
   "scripts": {
-    "start": "--trace-warnings node server.js"
+    "start": "NODE_OPTIONS='--experimental-specifier-resolution=node' node server.js"
   },
   "author": "",
   "license": "ISC",
