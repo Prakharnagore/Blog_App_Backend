@@ -21,13 +21,17 @@ cloudinary.config({
 });
 
 const app = express();
-app.use(express.json());
-app.use(cors());
 
-// Routes
+dbConnect();
+
+const upate = () => {};
+
 app.get("/", (req, res) => {
   res.json({ msg: "API for blog Application..." });
 });
+
+app.use(express.json());
+app.use(cors());
 
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
@@ -40,18 +44,6 @@ app.use("/api/category", categoryRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const start = async () => {
-  try {
-    const data = dbConnect(process.env.DB_URI);
-    app.listen(process.env.PORT, () => {
-      // console.log(`Mongodb connect with Server: ${data.connection.host}`);
-      console.log(
-        `Server is Listening on https://localhost:${process.env.PORT}`
-      );
-    });
-  } catch (error) {
-    console.log("Server error: " + error.message);
-  }
-};
-
-start();
+//server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, console.log(`Server is running ${PORT}`));
