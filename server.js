@@ -13,7 +13,6 @@ import categoryRoutes from "./routes/category/categoryRoute.js";
 import commentsRoutes from "./routes/comments/commentsRoute.js";
 import { errorHandler, notFound } from "./middlewares/error/errorHandler.js";
 import cloudinary from "cloudinary";
-
 // cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -36,7 +35,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/category", categoryRoutes);
-app.use("/api/comments", commentsRoutes);
+// app.use("/api/comments", commentsRoutes);
 
 // ERROR HANDLERS
 
