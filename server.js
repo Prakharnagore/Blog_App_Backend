@@ -13,7 +13,6 @@ import emailRoutes from "./routes/emailMsg/emailMsgRoute.js";
 import categoryRoutes from "./routes/category/categoryRoute.js";
 import { errorHandler, notFound } from "./middlewares/error/errorHandler.js";
 import cloudinary from "cloudinary";
-const PORT = process.env.PORT || 3000;
 // cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
