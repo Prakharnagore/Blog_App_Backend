@@ -1,10 +1,10 @@
 import express from "express";
 import {
+  deleteCommentCtrl,
+  updateCommentCtrl,
   createCommentCtrl,
   fetchAllCommentsCtrl,
   fetchCommentCtrl,
-  updateCommentCtrl,
-  deleteCommentCtrl,
 } from "../../controllers/comments/commentCtrl.js";
 import { authMiddleware } from "../../middlewares/auth/authMiddleware.js";
 
