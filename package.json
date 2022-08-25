@@ -8,7 +8,7 @@
     "node": "v16.14.2"
   },
   "scripts": {
-    "start": "--trace-warnings NODE_OPTIONS='--experimental-specifier-resolution=node' node server.js",
+    "start": "NODE_OPTIONS='--experimental-specifier-resolution=node' nodemon server.js",
     "server": "nodemon server.js"
   },
   "author": "",
