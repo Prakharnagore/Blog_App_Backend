@@ -3,8 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 // env
-dotenv.config();
 import dbConnect from "./config/db/dbConnect.js";
+dotenv.config();
 // ROUTES
 import userRoutes from "./routes/users/usersRoute.js";
 import postRoutes from "./routes/posts/postRoute.js";
