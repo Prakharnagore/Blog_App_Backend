@@ -45,7 +45,7 @@ const start = async () => {
   try {
     const data = dbConnect(process.env.DB_URI);
     app.listen(process.env.PORT, () => {
-      console.log(`Mongodb connect with Server: ${data.connection.host}`);
+      // console.log(`Mongodb connect with Server: ${data.connection.host}`);
       console.log(
         `Server is Listening on https://localhost:${process.env.PORT}`
       );
