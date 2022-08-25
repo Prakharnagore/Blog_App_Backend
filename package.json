@@ -2,6 +2,7 @@
   "name": "blog_backend",
   "version": "1.0.0",
   "description": "This is Blog App",
+  "type": "module",
   "main": "server.js",
   "engines": {
     "node": "v16.14.2",
