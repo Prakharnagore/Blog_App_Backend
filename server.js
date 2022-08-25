@@ -13,7 +13,7 @@ import emailRoutes from "./routes/emailMsg/emailMsgRoute.js";
 import categoryRoutes from "./routes/category/categoryRoute.js";
 import { errorHandler, notFound } from "./middlewares/error/errorHandler.js";
 import cloudinary from "cloudinary";
-
+const PORT = process.env.PORT || 5000;
 // cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -44,11 +44,9 @@ app.use(errorHandler);
 const start = async () => {
   try {
     const data = await dbConnect(process.env.DB_URI);
-    app.listen(process.env.PORT, () => {
+    app.listen(PORT, () => {
       console.log(`Mongodb connect with Server: ${data.connection.host}`);
-      console.log(
-        `Server is Listening on https://localhost:${process.env.PORT}`
-      );
+      console.log(`Server is Listening on https://localhost:${PORT}`);
     });
   } catch (error) {
     console.log("Server error: " + error.message);
