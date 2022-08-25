@@ -1,14 +1,14 @@
 {
   "name": "blog_backend",
   "version": "1.0.0",
-  "description": "",
-  "type": "module",
+  "description": "This is Blog App",
   "main": "server.js",
   "engines": {
-    "node": "v16.14.2"
+    "node": "v16.14.2",
+    "npm": "8.12.2"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "server": "nodemon server.js"
   },
   "author": "",

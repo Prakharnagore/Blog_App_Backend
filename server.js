@@ -44,10 +44,10 @@ app.use(errorHandler);
 const start = async () => {
   try {
     const data = await dbConnect(process.env.DB_URI);
-    app.listen(process.env.PORT || 5000, () => {
+    app.listen(process.env.PORT, () => {
       console.log(`Mongodb connect with Server: ${data.connection.host}`);
       console.log(
-        `Server is Listening on https://localhost:${process.env.PORT || 5000}`
+        `Server is Listening on https://localhost:${process.env.PORT}`
       );
     });
   } catch (error) {

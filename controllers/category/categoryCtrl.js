@@ -1,7 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import Category from "../../model/Category/Category.js";
 
-
 //create
 const createCategoryCtrl = expressAsyncHandler(async (req, res) => {
   try {
