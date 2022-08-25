@@ -5,7 +5,7 @@ import {
   createCommentCtrl,
   fetchAllCommentsCtrl,
   fetchCommentCtrl,
-} from "../../controllers/comments/commentCtrl.js";
+} from "../../controllers/comments/CommentCtrl.js";
 import { authMiddleware } from "../../middlewares/auth/authMiddleware.js";
 
 const route = express.Router();
