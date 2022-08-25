@@ -43,7 +43,7 @@ app.use(errorHandler);
 
 const start = async () => {
   try {
-    const data = await dbConnect(process.env.DB_URI);
+    const data = dbConnect(process.env.DB_URI);
     app.listen(process.env.PORT, () => {
       console.log(`Mongodb connect with Server: ${data.connection.host}`);
       console.log(
