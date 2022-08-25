@@ -1,7 +1,9 @@
 // IMPORTS
 import express from "express";
-import cloudinary from "cloudinary";
 import dotenv from "dotenv";
+import cors from "cors";
+// env
+dotenv.config();
 import dbConnect from "./config/db/dbConnect.js";
 // ROUTES
 import userRoutes from "./routes/users/usersRoute.js";
@@ -10,9 +12,7 @@ import commentRoutes from "./routes/comments/commentsRoute.js";
 import emailRoutes from "./routes/emailMsg/emailMsgRoute.js";
 import categoryRoutes from "./routes/category/categoryRoute.js";
 import { errorHandler, notFound } from "./middlewares/error/errorHandler.js";
-
-// env
-dotenv.config();
+import cloudinary from "cloudinary";
 
 // cloudinary
 cloudinary.config({
@@ -23,8 +23,13 @@ cloudinary.config({
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Routes
+app.get("/", (req, res) => {
+  res.json({ msg: "API for blog Application..." });
+});
+
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
@@ -32,6 +37,7 @@ app.use("/api/email", emailRoutes);
 app.use("/api/category", categoryRoutes);
 
 // ERROR HANDLERS
+
 app.use(notFound);
 app.use(errorHandler);
 

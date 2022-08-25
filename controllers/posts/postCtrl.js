@@ -71,15 +71,17 @@ const fetchPostsCtrl = expressAsyncHandler(async (req, res) => {
   try {
     //Check if it has a category
     if (hasCategory) {
-      const posts = await Post.find({ category: hasCategory }).populate("user");
-      // .populate("comments")
-      // .sort("-createdAt");
+      const posts = await Post.find({ category: hasCategory })
+        .populate("user")
+        .populate("comments")
+        .sort("-createdAt");
 
       res.json(posts);
     } else {
-      const posts = await Post.find({}).populate("user");
-      // .populate("comments")
-      // .sort("-createdAt");
+      const posts = await Post.find({})
+        .populate("user")
+        .populate("comments")
+        .sort("-createdAt");
       res.json(posts);
     }
   } catch (error) {
@@ -91,9 +93,11 @@ const fetchPostCtrl = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    const post = await Post.findById(id).populate("user").populate("disLikes");
-    // .populate("likes")
-    // .populate("comments");
+    const post = await Post.findById(id)
+      .populate("user")
+      .populate("disLikes")
+      .populate("likes")
+      .populate("comments");
     //update number of views
     await Post.findByIdAndUpdate(
       id,
@@ -109,6 +113,7 @@ const fetchPostCtrl = expressAsyncHandler(async (req, res) => {
 });
 
 const updatePostCtrl = expressAsyncHandler(async (req, res) => {
+  console.log(req.user);
   const { id } = req.params;
   validateMongodbId(id);
 
@@ -192,7 +197,6 @@ const toggleAddLikeToPostCtrl = expressAsyncHandler(async (req, res) => {
 
 const toggleAddDislikeToPostCtrl = expressAsyncHandler(async (req, res) => {
   //1.Find the post to be disLiked
-
   const { postId } = req.body;
   const post = await Post.findById(postId);
   //2.Find the login user

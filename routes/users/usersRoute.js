@@ -1,19 +1,19 @@
 import express from "express";
 import {
-  accountVerificationCtrl,
-  blockUserCtrl,
-  deleteUserCtrl,
-  fetchUserCtrl,
+  userRegisterCtrl,
+  loginUserCtrl,
+  fetchUsersCtrl,
+  deleteUsersCtrl,
   fetchUserDetailsCtrl,
-  followingUserCtrl,
-  generateVerificationTokenCtrl,
-  unBlockUserCtrl,
-  unfollowUserCtrl,
+  userProfileCtrl,
   updateUserCtrl,
   updateUserPasswordCtrl,
-  userLoginCtrl,
-  userProfileCtrl,
-  userRegisterCtrl,
+  followingUserCtrl,
+  unfollowUserCtrl,
+  blockUserCtrl,
+  unBlockUserCtrl,
+  generateVerificationTokenCtrl,
+  accountVerificationCtrl,
   forgetPasswordToken,
   passwordResetCtrl,
   profilePhotoUploadCtrl,
@@ -27,7 +27,7 @@ import {
 const route = express.Router();
 
 route.post("/register", userRegisterCtrl);
-route.post("/login", userLoginCtrl);
+route.post("/login", loginUserCtrl);
 route.put(
   "/profilephoto-upload",
   authMiddleware,
@@ -35,24 +35,24 @@ route.put(
   profilePhotoResize,
   profilePhotoUploadCtrl
 );
-
-route.get("/", authMiddleware, fetchUserCtrl);
-route.get("/profile/:id", authMiddleware, userProfileCtrl);
+route.get("/", authMiddleware, fetchUsersCtrl);
+route.post("/forget-password-token", forgetPasswordToken);
+route.put("/reset-password", passwordResetCtrl);
+route.put("/password", authMiddleware, updateUserPasswordCtrl);
 route.put("/follow", authMiddleware, followingUserCtrl);
 route.post(
   "/generate-verify-email-token",
   authMiddleware,
   generateVerificationTokenCtrl
 );
-route.put("/verify-account/:token", accountVerificationCtrl);
+
+route.put("/verify-account", authMiddleware, accountVerificationCtrl);
 route.put("/unfollow", authMiddleware, unfollowUserCtrl);
-route.put("/password", authMiddleware, updateUserPasswordCtrl);
-route.post("/forget-password-token", forgetPasswordToken);
-route.post("/reset-password/:token", passwordResetCtrl);
 route.put("/block-user/:id", authMiddleware, blockUserCtrl);
 route.put("/unblock-user/:id", authMiddleware, unBlockUserCtrl);
-route.put("/:id", authMiddleware, updateUserCtrl);
-route.delete("/:id", deleteUserCtrl);
+route.get("/profile/:id", authMiddleware, userProfileCtrl);
+route.put("/", authMiddleware, updateUserCtrl);
+route.delete("/:id", deleteUsersCtrl);
 route.get("/:id", fetchUserDetailsCtrl);
 
 export default route;

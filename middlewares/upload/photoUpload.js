@@ -2,16 +2,12 @@ import multer from "multer";
 import sharp from "sharp";
 import path from "path";
 
-//storage
 const multerStorage = multer.memoryStorage();
 
-//file type checking
 const multerFilter = (req, file, cb) => {
-  //check file type
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    //rejected files
     cb(
       {
         message: "Unsupported file format",
@@ -27,9 +23,7 @@ const photoUpload = multer({
   limits: { fileSize: 1000000 },
 });
 
-//Image Resizing
 const profilePhotoResize = async (req, res, next) => {
-  //check if there is no file
   if (!req.file) return next();
   req.file.filename = `user-${Date.now()}-${req.file.originalname}`;
 
@@ -41,9 +35,7 @@ const profilePhotoResize = async (req, res, next) => {
   next();
 };
 
-//Post Image Resizing
 const postImgResize = async (req, res, next) => {
-  //check if there is no file
   if (!req.file) return next();
   req.file.filename = `user-${Date.now()}-${req.file.originalname}`;
 
@@ -54,4 +46,5 @@ const postImgResize = async (req, res, next) => {
     .toFile(path.join(`public/images/posts/${req.file.filename}`));
   next();
 };
+
 export { photoUpload, profilePhotoResize, postImgResize };

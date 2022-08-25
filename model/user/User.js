@@ -5,12 +5,12 @@ import crypto from "crypto";
 const userSchema = new mongoose.Schema(
   {
     firstName: {
-      type: String,
       required: [true, "First name is required"],
+      type: String,
     },
     lastName: {
-      type: String,
       required: [true, "Last name is required"],
+      type: String,
     },
     profilePhoto: {
       type: String,
@@ -19,14 +19,14 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "Email name is required"],
+      required: [true, "Email is required"],
     },
     bio: {
       type: String,
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, "Hei buddy Password is required"],
     },
     postCount: {
       type: Number,
@@ -52,12 +52,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isAccountVerified: {
-      type: Boolean,
-      default: false,
-    },
+    isAccountVerified: { type: Boolean, default: false },
     accountVerificationToken: String,
     accountVerificationTokenExpires: Date,
+
     viewedBy: {
       type: [
         {
@@ -66,6 +64,7 @@ const userSchema = new mongoose.Schema(
         },
       ],
     },
+
     followers: {
       type: [
         {
@@ -102,23 +101,29 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-//virtual method to populate created post
 userSchema.virtual("posts", {
   ref: "Post",
   foreignField: "user",
   localField: "_id",
 });
 
+userSchema.virtual("accountType").get(function () {
+  const totalFollowers = this.followers?.length;
+  return totalFollowers >= 1 ? "Pro Account" : "Starter Account";
+});
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
+
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
 
-userSchema.methods.isPasswordMatched = async function (password) {
-  return bcrypt.compare(password, this.password);
+userSchema.methods.isPasswordMatched = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
 userSchema.methods.createAccountVerificationToken = async function () {
@@ -127,7 +132,7 @@ userSchema.methods.createAccountVerificationToken = async function () {
     .createHash("sha256")
     .update(verificationToken)
     .digest("hex");
-  this.accountVerificationTokenExpires = Date.now() + 30 * 60 * 1000; // 10mins
+  this.accountVerificationTokenExpires = Date.now() + 30 * 60 * 1000;
   return verificationToken;
 };
 
@@ -137,7 +142,7 @@ userSchema.methods.createPasswordResetToken = async function () {
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
-  this.passwordResetExpires = Date.now() + 30 * 60 * 1000; // 10mins
+  this.passwordResetExpires = Date.now() + 30 * 60 * 1000;
   return resetToken;
 };
 

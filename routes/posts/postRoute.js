@@ -23,6 +23,7 @@ route.post(
   postImgResize,
   createPostCtrl
 );
+
 route.put("/likes", authMiddleware, toggleAddLikeToPostCtrl);
 route.put("/dislikes", authMiddleware, toggleAddDislikeToPostCtrl);
 route.get("/", fetchPostsCtrl);
